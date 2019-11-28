@@ -7,10 +7,10 @@ import { connect } from 'react-redux'
 
 const AnecdoteList = (props) => {
     const vote = (id) => {
-      props.createVote(id)
       const votedContent = props.anecdotes.find(n => n.id === id)
-      props.createNotification(`you voted for ${votedContent.content}`)
-      setTimeout(() => props.clearNotification(), 5000)
+      props.createVote(votedContent)
+      props.createNotification(`you voted for ${votedContent.content}`, 3)
+    //   setTimeout(() => props.clearNotification(), 5000)
     }
 
     return (
@@ -30,7 +30,11 @@ const AnecdoteList = (props) => {
     )
 }
 
-const visibleAnecdotes = ({ anecdotes, filter }) => anecdotes.filter(str => str.content.toLowerCase().includes(filter))
+const visibleAnecdotes = ({ anecdotes, filter }) => { 
+    return anecdotes.length > 1 ?  anecdotes.filter(str => {
+        return str.content.toLowerCase().includes(filter)
+    }) : []
+}
 
 
 
